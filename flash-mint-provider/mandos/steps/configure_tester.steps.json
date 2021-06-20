@@ -1,0 +1,21 @@
+{
+    "name": "configure tester",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "sc:flash-mint-tester": {
+                    "nonce": "0",
+                    "esdt": {
+                        "str:MEX-abcdef": {
+                            "balance": "1,000,000,000,000,000,000,000,000"
+                        }
+                    },
+                    "storage": {},
+                    "owner": "address:owner",
+                    "code": "file:../../../flash-mint-tester/output/flash-mint-tester.wasm"
+                }
+            }
+        }
+    ]
+}

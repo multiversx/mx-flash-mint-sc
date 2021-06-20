@@ -1,0 +1,40 @@
+{
+    "name": "flash loan test",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "complete_setup.scen.json"
+        },
+        {
+            "step": "scCall",
+            "txId": "flashLoan",
+            "tx": {
+                "from": "address:user",
+                "to": "sc:flash-mint-provider",
+                "value": "0",
+                "function": "flashLoan",
+                "arguments": [
+                    "str:MEX-abcdef",
+                    "100",
+                    "sc:flash-mint-tester",
+                    "str:testArbitrage",
+                    "50000000",
+                    "200",
+                    "str:testTokenId",
+                    "str:testBoxedBytes",
+                    "999",
+                    "999"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

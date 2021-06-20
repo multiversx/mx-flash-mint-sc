@@ -1,0 +1,24 @@
+{
+    "name": "set roles",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "sc:flash-mint-provider": {
+                    "nonce": "0",
+                    "esdt": {
+                        "str:MEX-abcdef": {
+                            "roles": [
+                                "ESDTRoleLocalMint",
+                                "ESDTRoleLocalBurn"
+                            ]
+                        }
+                    },
+                    "storage": {},
+                    "owner": "address:owner",
+                    "code": "file:../../output/flash-mint-provider.wasm"
+                }
+            }
+        }
+    ]
+}

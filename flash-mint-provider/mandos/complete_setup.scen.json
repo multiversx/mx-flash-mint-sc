@@ -1,0 +1,25 @@
+{
+    "name": "complete setup",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "steps/init_accounts.steps.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/deploy.steps.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/set_roles.steps.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/configure_loan_settings.steps.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/configure_tester.steps.json"
+        }
+    ]
+}

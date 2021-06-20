@@ -1,0 +1,27 @@
+{
+    "name": "remove loan settings",
+    "steps": [
+        {
+            "step": "scCall",
+            "txId": "removeTokenLoanService",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:flash-mint-provider",
+                "value": "0",
+                "function": "removeTokenLoanService",
+                "arguments": [
+                    "str:MEX-abcdef"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

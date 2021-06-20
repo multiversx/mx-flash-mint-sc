@@ -1,0 +1,34 @@
+{
+    "name": "deploy contract",
+    "steps": [
+        {
+            "step": "setState",
+            "newAddresses": [
+                {
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0",
+                    "newAddress": "sc:flash-mint-provider"
+                }
+            ]
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-contract",
+            "tx": {
+                "from": "address:owner",
+                "value": "0",
+                "contractCode": "file:../../output/flash-mint-provider.wasm",
+                "arguments": [],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

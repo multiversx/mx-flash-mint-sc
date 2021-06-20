@@ -1,0 +1,33 @@
+{
+    "name": "configure loan settings",
+    "steps": [
+        {
+            "step": "scCall",
+            "txId": "configureTokenLoanServiceSettings",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:flash-mint-provider",
+                "value": "0",
+                "function": "configureTokenLoanServiceSettings",
+                "arguments": [
+                    "str:MEX-abcdef",
+                    "0",
+                    "1000",
+                    "10",
+                    "0",
+                    "address:owner",
+                    "0"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

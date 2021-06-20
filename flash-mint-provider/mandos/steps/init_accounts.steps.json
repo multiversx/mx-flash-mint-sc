@@ -1,0 +1,43 @@
+{
+    "name": "init accounts",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000",
+                    "esdt": {
+                        "str:MEX-abcdef": {
+                            "roles": [
+                                "ESDTRoleLocalMint",
+                                "ESDTRoleLocalBurn"
+                            ]
+                        }
+                    },
+                    "storage": {}
+                },
+                "address:user": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000",
+                    "storage": {}
+                }
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000",
+                    "storage": {}
+                },
+                "address:user": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000",
+                    "storage": {}
+                }
+            }
+        }
+    ]
+}
