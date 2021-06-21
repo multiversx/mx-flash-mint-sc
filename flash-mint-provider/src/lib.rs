@@ -4,6 +4,8 @@
 elrond_wasm::imports!();
 elrond_wasm::derive_imports!();
 
+type Nonce = u64;
+
 use core::iter::FromIterator;
 const PERCENT_BASE_PRECISION: u64 = 1_000;
 
@@ -27,10 +29,39 @@ pub struct ScCall<BigUint: BigUintApi> {
     arguments: Vec<BoxedBytes>,
 }
 
+#[derive(TopEncode, TopDecode, PartialEq, TypeAbi)]
+pub struct OngoingLoan<BigUint: BigUintApi> {
+    loan_token_id: TokenIdentifier,
+    payback_amount: BigUint,
+}
+
 #[elrond_wasm_derive::contract]
 pub trait FlashMintProvider {
     #[init]
     fn init(&self) {}
+
+    #[payable("*")]
+    #[endpoint(acceptPay)]
+    fn accept_pay(
+        &self,
+        #[payment_token] token_id: TokenIdentifier,
+        #[payment_amount] amount: Self::BigUint,
+        #[payment_nonce] nonce: Nonce,
+    ) -> SCResult<()> {
+        require!(self.is_ongoing_flash_loan(), "Flash loan not ongoing");
+        require!(nonce == 0, "Can only receive ESDT tokens");
+        let mut ongoing_loan = self.ongoing_flash_loan().get();
+        require!(
+            ongoing_loan.loan_token_id == token_id,
+            "Payment token differs from lend token"
+        );
+
+        if amount > 0 {
+            ongoing_loan.payback_amount += amount;
+            self.ongoing_flash_loan().set(&ongoing_loan);
+        }
+        Ok(())
+    }
 
     #[endpoint(flashLoan)]
     fn flash_loan(
@@ -59,31 +90,36 @@ pub trait FlashMintProvider {
             loan_amount <= loan_service_settings.maximum_loan_amount,
             "Requested amount is higher than maximum configured"
         );
-        require!(
-            self.get_own_balance(&loan_token_id) == 0,
-            "The initial contract balance should be always zero"
-        );
         self.require_local_burn_and_mint_roles_set(&loan_token_id)?;
+        require!(
+            !self.is_ongoing_flash_loan(),
+            "Flash loan is already ongoing"
+        );
 
         self.mint(&loan_token_id, &loan_amount);
+        self.ongoing_flash_loan().set(&OngoingLoan {
+            loan_token_id: loan_token_id.clone(),
+            payback_amount: Self::BigUint::zero(),
+        });
 
         let sc_call = ScCall {
-            payment_token_id: loan_token_id,
-            payment_amount: loan_amount,
+            payment_token_id: loan_token_id.clone(),
+            payment_amount: loan_amount.clone(),
             address,
             function,
             gas_limit,
             arguments: arguments.into_vec(),
         };
         self.execute_sc_call(&sc_call)?;
-        let balance = self.get_own_balance(&sc_call.payment_token_id);
-        self.require_paid_back_loan(&sc_call.payment_amount, &balance, &loan_service_settings)?;
+        let received_amount = self.ongoing_flash_loan().get().payback_amount;
+        self.require_paid_back_loan(&loan_amount, &received_amount, &loan_service_settings)?;
 
-        self.burn(&sc_call.payment_token_id, &sc_call.payment_amount);
+        self.ongoing_flash_loan().clear();
+        self.burn(&loan_token_id, &loan_amount);
 
         self.send_fees(
-            &sc_call.payment_token_id,
-            &(balance - sc_call.payment_amount),
+            &loan_token_id,
+            &(received_amount - loan_amount),
             &loan_service_settings,
         )
     }
@@ -180,9 +216,8 @@ pub trait FlashMintProvider {
         self.send().esdt_local_burn(token_id, amount);
     }
 
-    fn get_own_balance(&self, token_id: &TokenIdentifier) -> Self::BigUint {
-        self.blockchain()
-            .get_esdt_balance(&self.blockchain().get_sc_address(), token_id, 0)
+    fn is_ongoing_flash_loan(&self) -> bool {
+        !self.ongoing_flash_loan().is_empty()
     }
 
     fn require_paid_back_loan(
@@ -244,4 +279,7 @@ pub trait FlashMintProvider {
     fn token_loan_service_settings(
         &self,
     ) -> MapMapper<Self::Storage, TokenIdentifier, LoanServiceSettings<Self::BigUint>>;
+
+    #[storage_mapper("ongoing_flash_loan")]
+    fn ongoing_flash_loan(&self) -> SingleValueMapper<Self::Storage, OngoingLoan<Self::BigUint>>;
 }

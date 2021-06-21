@@ -23,9 +23,13 @@ By calling this endpoint, the following flow of actions with happen (assuming in
 
 - The contract will transfer the minted tokens and will execute `function` at given `address` with given `gas_limit` and `arguments`
 
+- The contract will expect the payback to be received via `acceptPay` endpoint. The contract will only accept funds while a flash loan is ongoing and will only accept `loan_token_id` tokens.
+
 - The contract will check if the loan was paid back (the initial amount + a configured fee). The whole transaction will be reverted if this check fails. For example, if a user requests a loan of 100 tokenA and the fee percent for tokenA is 10%, the contract will verify it's balance and will expect to have at least 110 tokenA.
 
 - The contract will send the fees to a configured address.
+
+This function is not re-entrant, meaning that one cannot call it multiple times in a nested way.
 
 ### `configureTokenLoanServiceSettings`
 

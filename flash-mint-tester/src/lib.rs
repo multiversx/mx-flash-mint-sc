@@ -3,6 +3,9 @@
 
 elrond_wasm::imports!();
 
+const FINISH_EXEC_GAS_THRESHOLD: u64 = 100_000;
+const PAYBACK_FUNCTION_NAME: &[u8] = b"acceptPay";
+
 #[elrond_wasm_derive::contract]
 pub trait FlashMintTester {
     #[init]
@@ -20,11 +23,13 @@ pub trait FlashMintTester {
         _big_uint: Self::BigUint,
         _u64: u64,
     ) {
-        self.send().direct(
+        let _ = self.send().direct_esdt_execute(
             &self.blockchain().get_caller(),
             &payment_token,
             &amount_to_return,
-            &[],
+            self.blockchain().get_gas_left() - FINISH_EXEC_GAS_THRESHOLD,
+            PAYBACK_FUNCTION_NAME,
+            &ArgBuffer::new(),
         );
     }
 }

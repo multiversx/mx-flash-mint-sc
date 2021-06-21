@@ -18,14 +18,14 @@
                     "100",
                     "sc:flash-mint-tester",
                     "str:testArbitrage",
-                    "50000000",
+                    "100000000",
                     "200",
                     "str:testTokenId",
                     "str:testBoxedBytes",
                     "999",
                     "999"
                 ],
-                "gasLimit": "100,000,000",
+                "gasLimit": "150,000,000",
                 "gasPrice": "0"
             },
             "expect": {
