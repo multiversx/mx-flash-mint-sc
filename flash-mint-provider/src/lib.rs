@@ -41,8 +41,8 @@ pub trait FlashMintProvider {
     fn init(&self) {}
 
     #[payable("*")]
-    #[endpoint(acceptPay)]
-    fn accept_pay(
+    #[endpoint(acceptPayback)]
+    fn accept_payback(
         &self,
         #[payment_token] token_id: TokenIdentifier,
         #[payment_amount] amount: Self::BigUint,

@@ -4,7 +4,7 @@
 elrond_wasm::imports!();
 
 const FINISH_EXEC_GAS_THRESHOLD: u64 = 100_000;
-const PAYBACK_FUNCTION_NAME: &[u8] = b"acceptPay";
+const PAYBACK_FUNCTION_NAME: &[u8] = b"acceptPayback";
 
 #[elrond_wasm_derive::contract]
 pub trait FlashMintTester {
