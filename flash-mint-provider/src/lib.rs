@@ -108,7 +108,7 @@ pub trait FlashMintProvider {
             fee_percent < PERCENT_BASE_PRECISION,
             "Fee percent above maximum allowed"
         );
-        require!(maximum_loan_amount >= 0, "Maximum amount cannot be zero");
+        require!(maximum_loan_amount > 0, "Maximum amount cannot be zero");
         require!(
             minimum_loan_amount <= maximum_loan_amount,
             "Minimum amount larger than maximum amount"
