@@ -73,6 +73,7 @@ pub trait FlashMintProvider {
         gas_limit: u64,
         #[var_args] arguments: MultiArgVec<BoxedBytes>,
     ) -> SCResult<()> {
+        require!(loan_amount != 0, "Loan amount cannot be zero");
         require!(
             self.token_loan_service_settings()
                 .contains_key(&loan_token_id),
