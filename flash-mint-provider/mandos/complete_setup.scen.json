@@ -20,6 +20,10 @@
         {
             "step": "externalSteps",
             "path": "steps/configure_tester.steps.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/dex_setup.steps.json"
         }
     ]
 }

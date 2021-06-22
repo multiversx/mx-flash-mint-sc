@@ -17,7 +17,7 @@
                     "str:MEX-abcdef",
                     "100",
                     "sc:flash-mint-tester",
-                    "str:testArbitrage",
+                    "str:testEcho",
                     "100000000",
                     "200",
                     "str:testTokenId",

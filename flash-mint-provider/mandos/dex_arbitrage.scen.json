@@ -1,0 +1,83 @@
+{
+    "name": "arbitrage",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "complete_setup.scen.json"
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:user": {
+                    "nonce": "0",
+                    "balance": "1000000000000",
+                    "storage": {},
+                    "code": ""
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "arbitrage",
+            "tx": {
+                "from": "address:user",
+                "to": "sc:flash-mint-provider",
+                "value": "0",
+                "function": "flashLoan",
+                "arguments": [
+                    "str:MEX-abcdef",
+                    "100",
+                    "sc:flash-mint-tester",
+                    "str:testArbitrage",
+                    "900,000,000",
+                    "sc:dex_router",
+                    "address:user",
+                    "120",
+                    "sc:mex_wegld_swap",
+                    "str:swapTokensFixedInput",
+                    "str:WEGLD-abcdef",
+                    "150",
+                    "sc:wegld_busd_swap",
+                    "str:swapTokensFixedInput",
+                    "str:BUSD-abcdef",
+                    "300",
+                    "sc:busd_mex_swap",
+                    "str:swapTokensFixedInput",
+                    "str:MEX-abcdef",
+                    "450"
+                ],
+                "gasLimit": "1,000,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [
+                    "*",
+                    "*",
+                    "*"
+                ],
+                "status": "0",
+                "message": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:user": {
+                    "nonce": "1",
+                    "balance": "1000000000000",
+                    "esdt": {
+                        "str:MEX-abcdef": {
+                            "balance": "669"
+                        }
+                    },
+                    "storage": {},
+                    "code": ""
+                },
+                "+": ""
+            }
+        }
+    ]
+}

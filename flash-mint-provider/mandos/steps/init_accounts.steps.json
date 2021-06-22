@@ -21,6 +21,14 @@
                     "nonce": "0",
                     "balance": "1,000,000,000,000",
                     "storage": {}
+                },
+                "address:user_with_mex": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000",
+                    "esdt": {
+                        "str:MEX-abcdef": "1,000,000,000,000"
+                    },
+                    "storage": {}
                 }
             }
         },
@@ -35,6 +43,14 @@
                 "address:user": {
                     "nonce": "0",
                     "balance": "1,000,000,000,000",
+                    "storage": {}
+                },
+                "address:user_with_mex": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000",
+                    "esdt": {
+                        "str:MEX-abcdef": "1,000,000,000,000"
+                    },
                     "storage": {}
                 }
             }

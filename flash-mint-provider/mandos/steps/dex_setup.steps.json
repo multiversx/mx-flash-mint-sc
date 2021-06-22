@@ -1,0 +1,105 @@
+{
+    "name": "deploy contract",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "sc:mex_wegld_swap": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:MEX-abcdef": {
+                            "balance": "1000000000"
+                        },
+                        "str:WEGLD-abcdef": {
+                            "balance": "2000000000"
+                        }
+                    },
+                    "storage": {
+                        "str:first_token_id": "str:MEX-abcdef",
+                        "str:second_token_id": "str:WEGLD-abcdef",
+                        "str:reserve|nested:str:MEX-abcdef": "1000000000",
+                        "str:reserve|nested:str:WEGLD-abcdef": "2000000000",
+                        "str:total_supply": "2000000000",
+                        "str:total_fee_percent": "300",
+                        "str:special_fee_percent": "100",
+                        "str:transfer_exec_gas_limit": "35000000",
+                        "str:state": "1"
+                    },
+                    "code": "file:../dex_wasms/elrond_dex_pair.wasm"
+                },
+                "sc:wegld_busd_swap": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:WEGLD-abcdef": {
+                            "balance": "1000000000"
+                        },
+                        "str:BUSD-abcdef": {
+                            "balance": "2000000000"
+                        }
+                    },
+                    "storage": {
+                        "str:first_token_id": "str:WEGLD-abcdef",
+                        "str:second_token_id": "str:BUSD-abcdef",
+                        "str:reserve|nested:str:WEGLD-abcdef": "1000000000",
+                        "str:reserve|nested:str:BUSD-abcdef": "2000000000",
+                        "str:total_supply": "2000000000",
+                        "str:total_fee_percent": "300",
+                        "str:special_fee_percent": "100",
+                        "str:transfer_exec_gas_limit": "35000000",
+                        "str:state": "1"
+                    },
+                    "code": "file:../dex_wasms/elrond_dex_pair.wasm"
+                },
+                "sc:busd_mex_swap": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:BUSD-abcdef": {
+                            "balance": "1000000000"
+                        },
+                        "str:MEX-abcdef": {
+                            "balance": "2000000000"
+                        }
+                    },
+                    "storage": {
+                        "str:first_token_id": "str:BUSD-abcdef",
+                        "str:second_token_id": "str:MEX-abcdef",
+                        "str:reserve|nested:str:BUSD-abcdef": "1000000000",
+                        "str:reserve|nested:str:MEX-abcdef": "2000000000",
+                        "str:total_supply": "2000000000",
+                        "str:total_fee_percent": "300",
+                        "str:special_fee_percent": "100",
+                        "str:transfer_exec_gas_limit": "35000000",
+                        "str:state": "1"
+                    },
+                    "code": "file:../dex_wasms/elrond_dex_pair.wasm"
+                },
+                "sc:dex_router": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:owner": "address:owner",
+                        "str:pair_map.info": "u32:3|u32:1|u32:3|u32:3",
+                        "str:pair_map.mapped|nested:str:MEX-abcdef|nested:str:WEGLD-abcdef": "sc:mex_wegld_swap",
+                        "str:pair_map.mapped|nested:str:WEGLD-abcdef|nested:str:BUSD-abcdef": "sc:wegld_busd_swap",
+                        "str:pair_map.mapped|nested:str:BUSD-abcdef|nested:str:MEX-abcdef": "sc:busd_mex_swap",
+                        "str:pair_map.node_id|nested:str:MEX-abcdef|nested:str:WEGLD-abcdef": "1",
+                        "str:pair_map.node_id|nested:str:WEGLD-abcdef|nested:str:BUSD-abcdef": "2",
+                        "str:pair_map.node_id|nested:str:BUSD-abcdef|nested:str:MEX-abcdef": "3",
+                        "str:pair_map.node_links|u32:1": "u32:0|u32:2",
+                        "str:pair_map.node_links|u32:2": "u32:1|u32:3",
+                        "str:pair_map.node_links|u32:3": "u32:2|u32:0",
+                        "str:pair_map.value|u32:1": "nested:str:MEX-abcdef|nested:str:WEGLD-abcdef",
+                        "str:pair_map.value|u32:2": "nested:str:WEGLD-abcdef|nested:str:BUSD-abcdef",
+                        "str:pair_map.value|u32:3": "nested:str:BUSD-abcdef|nested:str:MEX-abcdef",
+                        "str:transfer_exec_gas_limit": "35000000",
+                        "str:state": "1"
+                    },
+                    "code": "file:../dex_wasms/elrond_dex_router.wasm"
+                }
+            }
+        }
+    ]
+}
