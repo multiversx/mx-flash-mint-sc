@@ -56,3 +56,9 @@ This endpoint can be used only by the owner in order to delete the settings for 
 ### `getTokenLoanServiceSettingsList` and `getLoanServiceSettings`
 
 This view function can be used by anyone. Their purpose is to allow the user check the tokens that are available for Flash Mint Lending and what are the Loan Service Settings (most important what is the fee_percent).
+
+---
+
+Not yet audited
+
+---
